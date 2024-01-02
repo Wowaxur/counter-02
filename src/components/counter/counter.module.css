@@ -1,0 +1,60 @@
+.counterWrapper{
+    background-color: rgba(153, 161, 217, 0.58);
+    border-radius: 15px;
+    border: solid 3px blue;
+    margin: 10px;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+.firstBlock{
+    justify-content: center;
+    display: flex;
+    flex-direction: row}
+.valuesWrapper{
+    padding: 30px;
+    margin: 10px;
+    border: 2px solid blue;
+    border-radius: 15px;
+}
+.value{
+    margin-top: 10px;
+}
+.resultWrapper{
+    padding: 30px;
+    margin: 10px;
+    border: 2px solid blue;
+    border-radius: 15px;
+}
+.resultButtons{
+    margin: 0 auto;
+    justify-content: center;
+    border-radius: 15px;
+    border: 2px solid blue;
+    padding: 20px;
+    display: flex;
+    gap: 30px;
+}
+.result{
+
+}
+
+.countValue{
+    font-weight: bold;
+    font-size: 24px;
+    color: #13617a;
+}
+.redCountValue{
+    font-weight: bold;
+    font-size: 24px;
+    color: red;
+}
+.errorMessage {
+    color: red;
+}
+.storageButton {
+    padding: 30px;
+
+}
