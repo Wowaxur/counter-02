@@ -1,6 +1,8 @@
 import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from 'react';
 import Button from "../button/Button";
 import s from './counter.module.css'
+import CounterValueSettings from "./CounterValueSettings";
+import CounterValueResult from "./CounterValueResult";
 
 
 const Counter = () => {
@@ -55,8 +57,12 @@ const Counter = () => {
     }
 
     const startValueOnChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setErrorMessage('')
-        setStartCountValue(parseInt(event.target.value))
+        if (startCountValue < 0) {
+            setErrorMessage('start value should be > 0 ');}
+        else {
+            setErrorMessage('')
+            setStartCountValue(parseInt(event.target.value))
+        }
     }
 
     useEffect(()=>{
@@ -103,81 +109,24 @@ const Counter = () => {
             <hr/>
             <div className={s.counterWrapper}>
                 <div className={s.firstBlock}>
-                    <div className={s.valuesWrapper}>
-                        <div className={s.value}>
-                            <span> max value:</span>
-                            <input
-                                id="maxValue"
-                                type="number"
-                                value={maxCountValue}
-                                onChange={maxValueOnChangeHandler}/>
-                        </div>
-                        <div className={s.value}>
-                            <span> start value:</span>
-                            <input
-                                id={'StartValue'}
-                                type={"number"}
-                                value={startCountValue}
-                                onChange={startValueOnChangeHandler}
-                                onKeyDown={onKeyPressHandler}
-                            />
+                    <CounterValueSettings
+                        maxCountValue={maxCountValue}
+                        ResetButtonStartMaxValue={ResetButtonStartMaxValue}
+                        maxValueOnChangeHandler={maxValueOnChangeHandler}
+                        onKeyPressHandler={onKeyPressHandler}
+                        SetButtonHandler={SetButtonHandler}
+                        startCountValue={startCountValue}
+                        startValueOnChangeHandler={startValueOnChangeHandler}
+                    />
+                    <CounterValueResult
+                        countValue={countValue}
+                                        maxCountValue={maxCountValue}
+                                        startCountValue={startCountValue}
+                                        errorMessage={errorMessage}
+                                        ResetCountClickHandler={ResetCountClickHandler}
+                                        IncreaseCountValueClickHandler={IncreaseCountValueClickHandler}
 
-                        </div>
-                        <div>
-
-                            <Button
-                                onClick={SetButtonHandler}
-                                name={'set'}
-                                style={{
-                                    backgroundColor: '#a6a6f3',
-                                    marginTop: '30px',
-                                    borderRadius: '5px',
-                                    width: '55px',
-                                    height: '30px',
-                                    fontSize: '18px',
-                                }}
-                            />
-                            <Button
-                                disabled={maxCountValue === 10 && startCountValue === 0}
-                                onClick={ResetButtonStartMaxValue}
-                                name={'reset'}
-                                style={{
-                                    backgroundColor: '#a6a6f3',
-                                    marginTop: '30px',
-                                    marginLeft: '15px',
-                                    borderRadius: '5px',
-                                    width: '55px',
-                                    height: '30px',
-                                    fontSize: '18px',
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className={s.resultWrapper}>
-                        <div>
-                            <div className={s.result}>
-                                <p className={`${s.countValue} ${countValue === maxCountValue ? 'redText' : ''}`}>
-                                    {countValue} </p>
-                                {errorMessage && <p className={s.errorMessage}>{errorMessage}</p>}
-
-                            </div>
-                            <div className={s.resultButtons}>
-                                <Button
-                                    disabled={countValue >= maxCountValue}
-                                    name={'inc'}
-                                    style={{backgroundColor: '#a6a6f3', borderRadius: '5px'}}
-                                    onClick={IncreaseCountValueClickHandler}
-                                />
-                                <Button
-                                    disabled={countValue === startCountValue}
-                                    name={'reset'}
-                                    style={{backgroundColor: '#a6a6f3', borderRadius: '5px'}}
-                                    onClick={ResetCountClickHandler}
-
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    />
                 </div>
             {/*    <div className={s.storageButton}>
                     <Button
