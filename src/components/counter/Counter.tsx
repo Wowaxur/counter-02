@@ -1,8 +1,9 @@
 import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from 'react';
-import Button from "../button/Button";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import SettingsPage from "./SettingsPage";
 import s from './counter.module.css'
-import CounterValueSettings from "./CounterValueSettings";
 import CounterValueResult from "./CounterValueResult";
+import Button from "../button/Button";
 
 
 const Counter = () => {
@@ -104,53 +105,37 @@ const Counter = () => {
     //     setErrorMessage('');
     // }
     return (
-        <>
-            <h3>COUNTER</h3>
-            <hr/>
-            <div className={s.counterWrapper}>
-                <div className={s.firstBlock}>
-                    <CounterValueSettings
-                        maxCountValue={maxCountValue}
-                        ResetButtonStartMaxValue={ResetButtonStartMaxValue}
-                        maxValueOnChangeHandler={maxValueOnChangeHandler}
-                        onKeyPressHandler={onKeyPressHandler}
-                        SetButtonHandler={SetButtonHandler}
-                        startCountValue={startCountValue}
-                        startValueOnChangeHandler={startValueOnChangeHandler}
-                    />
-                    <CounterValueResult
-                        countValue={countValue}
-                                        maxCountValue={maxCountValue}
-                                        startCountValue={startCountValue}
-                                        errorMessage={errorMessage}
-                                        ResetCountClickHandler={ResetCountClickHandler}
-                                        IncreaseCountValueClickHandler={IncreaseCountValueClickHandler}
-
-                    />
-                </div>
-            {/*    <div className={s.storageButton}>
-                    <Button
-                        name={'Set to LocalStorage'}
-                        style={{backgroundColor: '#e9a6f3', borderRadius: '5px'}}
-                        onClick={setToLocalStorageHandler}
-                    />
-                    <Button
-                        style={{backgroundColor: '#e9a6f3', borderRadius: '5px', marginLeft: '10px'}}
-                        name={'Get from LocalStorage'}
-                        onClick={getFromLocalStorageHandler}
-                    />
-                    <br/>
-                    <Button
-                        style={{backgroundColor: '#e9a6f3', borderRadius: '5px', marginLeft: '10px', marginTop: '10px'}}
-                        name={'Clear LocalStorage'}
-                        onClick={clearLocalStorage}
-                    />
-
-                </div>*/}
-            </div>
-
-            <hr/>
-        </>
+        <Router>
+            <Routes>
+                <Route path="/settings" element={<SettingsPage  ResetButtonStartMaxValue={ResetButtonStartMaxValue} startCountValue={startCountValue} maxCountValue={maxCountValue} startValueOnChangeHandler={startValueOnChangeHandler} SetButtonHandler={SetButtonHandler} maxValueOnChangeHandler={maxValueOnChangeHandler} onKeyPressHandler={onKeyPressHandler}/>} />
+                <Route path="/" element={
+                    <>
+                        <h3>COUNTER</h3>
+                        <hr/>
+                        <div className={s.counterWrapper}>
+                            <div className={s.firstBlock}>
+                                <CounterValueResult
+                                    countValue={countValue}
+                                    maxCountValue={maxCountValue}
+                                    startCountValue={startCountValue}
+                                    errorMessage={errorMessage}
+                                    ResetCountClickHandler={ResetCountClickHandler}
+                                    IncreaseCountValueClickHandler={IncreaseCountValueClickHandler}
+                                />
+                                <Link className={s.settingButton} to="/settings"><Button name={"settings"}  style={{
+                                    backgroundColor: '#a6a6f3',
+                                    borderRadius: '5px',
+                                    height: '30px',
+                                    fontSize: '18px',
+                                }} />
+                                </Link>
+                            </div>
+                        </div>
+                        <hr/>
+                    </>
+                }/>
+            </Routes>
+        </Router>
     );
 };
 

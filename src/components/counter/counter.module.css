@@ -9,11 +9,13 @@
     flex-wrap: wrap;
     flex-direction: column;
 }
-.firstBlock{
+.firstBlock {
     justify-content: center;
-    display: flex;
-    flex-direction: row}
+    padding: 30px;
+
+}
 .valuesWrapper{
+    background-color: rgba(153, 161, 217, 0.58);
     padding: 30px;
     margin: 10px;
     border: 2px solid blue;
@@ -25,7 +27,7 @@
 .resultWrapper{
     padding: 30px;
     margin: 10px;
-    border: 2px solid blue;
+
     border-radius: 15px;
 }
 .resultButtons{
