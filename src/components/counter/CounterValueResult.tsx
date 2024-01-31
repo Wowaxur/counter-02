@@ -2,7 +2,7 @@ import React from 'react';
 import s from "./counter.module.css";
 import Button from "../button/Button";
 
-type CounterValueResultType = {
+export type CounterValueResultType = {
     countValue : number
     startCountValue : number
     maxCountValue : number
@@ -10,6 +10,7 @@ type CounterValueResultType = {
     IncreaseCountValueClickHandler : ()=> void
     ResetCountClickHandler: ()=> void
 }
+
 
 const CounterValueResult = (p: CounterValueResultType) => {
     return (

@@ -34,6 +34,7 @@ const CounterValueSettings = (p:CounterValueSettingsProps) => {
                 />
 
             </div>
+
             <div>
 
                 <Button

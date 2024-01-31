@@ -1,49 +1,50 @@
-import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useReducer, useState} from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import SettingsPage from "./SettingsPage";
 import s from './counter.module.css'
 import CounterValueResult from "./CounterValueResult";
 import Button from "../button/Button";
+import {
+    CounterReducer,
+    IncreaseCountValueClickHandlerAC,
+    ResetButtonStartMaxValueAC,
+    ResetCountClickHandlerAC, SetButtonHandlerAC, SetErrorMessageAC, SetMaxCountValueAC, SetStartCountValueAC
+} from "../../reducer/CounterReducer";
+
+export type StateType = {
+    countValue: number,
+    startCountValue: number,
+    maxCountValue: number,
+    errorMessage: string
+}
+
+const initialState: StateType = {
+    countValue: 0,
+    startCountValue: 0,
+    maxCountValue: 10,
+    errorMessage: ''
+}
+
 
 
 const Counter = () => {
-    let [countValue, setCountValue] = useState(0)
-
-    let [maxCountValue, setMaxCountValue] = useState(10)
-
-    let [startCountValue, setStartCountValue] = useState(0)
-
-    const [errorMessage, setErrorMessage] = useState('');
+    let [countValue, dispatch] = useReducer(CounterReducer,initialState)
 
     const ResetCountClickHandler = () => {
-        if (startCountValue < maxCountValue) {
-            setCountValue(startCountValue)
-        } else setErrorMessage('start value should be lower than max value');
-
+        dispatch(ResetCountClickHandlerAC())
     }
 
     const IncreaseCountValueClickHandler = () => {
-        if (countValue < maxCountValue) {
-            setCountValue(countValue + 1)
-        }
+       dispatch(IncreaseCountValueClickHandlerAC())
     }
 
     const ResetButtonStartMaxValue = () => {
-        setStartCountValue(0)
-        setMaxCountValue(10)
-        setCountValue(0)
-        setErrorMessage('');
+        dispatch(ResetButtonStartMaxValueAC())
 
     }
 
     const SetButtonHandler = () => {
-        if (startCountValue > maxCountValue) {
-            setErrorMessage('start value should be lower than max value');
-            setCountValue(maxCountValue)
-        } else {
-            setErrorMessage(''); // clear the error message if there's no error
-            setCountValue(startCountValue);
-        }
+       dispatch(SetButtonHandlerAC())
     };
 
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -53,20 +54,20 @@ const Counter = () => {
     }
 
     const maxValueOnChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setErrorMessage('')
-        setMaxCountValue(parseInt(event.target.value))
+        dispatch(SetMaxCountValueAC(parseInt(event.target.value)))
     }
 
     const startValueOnChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        if (startCountValue < 0) {
-            setErrorMessage('start value should be > 0 ');}
-        else {
-            setErrorMessage('')
-            setStartCountValue(parseInt(event.target.value))
+        const newStartCountValue = parseInt(event.target.value);
+        if (newStartCountValue < 0) {
+            dispatch(SetErrorMessageAC('start value should be > 0 '))
+        } else {
+            dispatch(SetErrorMessageAC(''))
+            dispatch(SetStartCountValueAC(newStartCountValue))
         }
     }
 
-    useEffect(()=>{
+   /* useEffect(()=>{
         getFromLocalStorageHandler()
     }, [])
 
@@ -94,7 +95,7 @@ const Counter = () => {
             setStartCountValue(newStartCountValueFromStorage)
             setCountValue(newValueFromStorage)
         }
-    }
+    }*/
 
 
     // const clearLocalStorage = () => {
@@ -107,7 +108,7 @@ const Counter = () => {
     return (
         <Router>
             <Routes>
-                <Route path="/settings" element={<SettingsPage  ResetButtonStartMaxValue={ResetButtonStartMaxValue} startCountValue={startCountValue} maxCountValue={maxCountValue} startValueOnChangeHandler={startValueOnChangeHandler} SetButtonHandler={SetButtonHandler} maxValueOnChangeHandler={maxValueOnChangeHandler} onKeyPressHandler={onKeyPressHandler}/>} />
+                <Route path="/settings" element={<SettingsPage  ResetButtonStartMaxValue={ResetButtonStartMaxValue} startCountValue={countValue.startCountValue} maxCountValue={countValue.maxCountValue} startValueOnChangeHandler={startValueOnChangeHandler} SetButtonHandler={SetButtonHandler} maxValueOnChangeHandler={maxValueOnChangeHandler} onKeyPressHandler={onKeyPressHandler}/>} />
                 <Route path="/" element={
                     <>
                         <h3>COUNTER</h3>
@@ -115,10 +116,10 @@ const Counter = () => {
                         <div className={s.counterWrapper}>
                             <div className={s.firstBlock}>
                                 <CounterValueResult
-                                    countValue={countValue}
-                                    maxCountValue={maxCountValue}
-                                    startCountValue={startCountValue}
-                                    errorMessage={errorMessage}
+                                    countValue={countValue.countValue}
+                                    maxCountValue={countValue.maxCountValue}
+                                    startCountValue={countValue.startCountValue}
+                                    errorMessage={countValue.errorMessage}
                                     ResetCountClickHandler={ResetCountClickHandler}
                                     IncreaseCountValueClickHandler={IncreaseCountValueClickHandler}
                                 />
