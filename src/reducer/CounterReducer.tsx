@@ -1,7 +1,13 @@
 import {StateType} from "../components/counter/Counter";
 
+const initialState: StateType = {
+    countValue: 0,
+    startCountValue: 0,
+    maxCountValue: 10,
+    errorMessage: ''
+}
 
-export const CounterReducer = (state: StateType, action: CounterTasksType): StateType => {
+export const CounterReducer = (state: StateType = initialState, action: CounterTasksType): StateType => {
     switch (action.type) {
         case "Reset-Count": {
             if (state.startCountValue < state.maxCountValue) {
