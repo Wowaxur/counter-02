@@ -44,7 +44,9 @@ export const CounterReducer = (state: StateType, action: CounterTasksType): Stat
         case "Set-Error-Message": {
             return {...state, errorMessage: action.errorMessage}
         }
+        default: return state
     }
+
 }
 
 

@@ -5,11 +5,12 @@ import s from './counter.module.css'
 import CounterValueResult from "./CounterValueResult";
 import Button from "../button/Button";
 import {
-    CounterReducer,
     IncreaseCountValueClickHandlerAC,
     ResetButtonStartMaxValueAC,
     ResetCountClickHandlerAC, SetButtonHandlerAC, SetErrorMessageAC, SetMaxCountValueAC, SetStartCountValueAC
 } from "../../reducer/CounterReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../../store/store";
 
 export type StateType = {
     countValue: number,
@@ -28,8 +29,10 @@ const initialState: StateType = {
 
 
 const Counter = () => {
-    let [countValue, dispatch] = useReducer(CounterReducer,initialState)
+    // let [countValue, dispatch] = useReducer(CounterReducer,initialState)
 
+    const countValue = useSelector<AppRootStateType, StateType>(state => state.counter)
+    const dispatch = useDispatch()
     const ResetCountClickHandler = () => {
         dispatch(ResetCountClickHandlerAC())
     }
