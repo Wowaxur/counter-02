@@ -19,12 +19,7 @@ export type StateType = {
     errorMessage: string
 }
 
-const initialState: StateType = {
-    countValue: 0,
-    startCountValue: 0,
-    maxCountValue: 10,
-    errorMessage: ''
-}
+
 
 
 
